@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>wjy Blog</title>
+    <description>keep is important.</description>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Mon, 11 Nov 2019 20:18:29 +0800</pubDate>
+    <lastBuildDate>Mon, 11 Nov 2019 20:18:29 +0800</lastBuildDate>
+    <generator>Jekyll v4.0.0</generator>
+    
+      <item>
+        <title>王金玉日报</title>
+        <description>&lt;p&gt;姓名:王金玉
+类型:日报
+时间:2019-11-8&lt;/p&gt;
+&lt;h2 id=&quot;今日学习内容&quot;&gt;今日学习内容&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;1.学习vim的使用命令
+2.学习markdown的使用
+&lt;em&gt;**&lt;/em&gt;&lt;/p&gt;
+  &lt;h2 id=&quot;总结&quot;&gt;总结&lt;/h2&gt;
+  &lt;p&gt;今天的vim指令与markdown的基本使用已经渐入佳境,但是还有很多需要学习.vim指令多且繁杂需要多看多记.
+&lt;em&gt;**&lt;/em&gt;&lt;/p&gt;
+  &lt;h2 id=&quot;明日计划&quot;&gt;明日计划&lt;/h2&gt;
+  &lt;p&gt;抓紧熟练掌握markdown与vim.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+</description>
+        <pubDate>Fri, 08 Nov 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2019/11/08/%E7%8E%8B%E9%87%91%E7%8E%89%E6%97%A5%E6%8A%A5/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/11/08/%E7%8E%8B%E9%87%91%E7%8E%89%E6%97%A5%E6%8A%A5/</guid>
+        
+        
+      </item>
+    
+  </channel>
+</rss>

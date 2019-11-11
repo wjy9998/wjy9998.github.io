@@ -1,0 +1,624 @@
+I"�|<p>[TOC]</p>
+<h1 id="es6笔记">ES6笔记</h1>
+
+<h2 id="简介">简介</h2>
+
+<p>ECMAScript(简称ES6)是JavaScript语言的下一代标准,在2015年6月.他的目标,使得JavaScript语言可以用来编写复杂大型的应用程序,成为企业级开发语言.</p>
+
+<h2 id="let和const">let和const</h2>
+<h3 id="let关键字的语法规范">let关键字的语法规范</h3>
+<blockquote>
+  <p>用于声明变量
+let声明的变量不能重复声明
+不存在变量提升,临时死去</p>
+</blockquote>
+
+<h3 id="块级作用域">块级作用域</h3>
+<blockquote>
+  <p>每次循环都会生成一个作用域
+let关键字会自动创建一个块状作用域
+代替闭包的一些功能</p>
+  <h4 id="什么情况会产生块级作用域">什么情况会产生块级作用域?</h4>
+  <p>像for,if,else,while等代码块产生块状作用域</p>
+</blockquote>
+
+<h3 id="const关键字">const关键字</h3>
+<blockquote>
+  <p>用于声明常量:变量名使用大写
+常量的值一旦声明就不能修改
+const声明的常量同样存在作用域(局部作用域,块级作用域,全局作用域)</p>
+</blockquote>
+
+<h3 id="全局作用域和顶层对象">全局作用域和顶层对象</h3>
+<blockquote>
+  <p>ES6中去掉了顶层对象的概念
+为了向下兼容,在全局作用域中使用var声明的变量和直接声明的函数任然是顶层对象的属性和方法,
+而使用let和const声明的变量不再属于顶层对象</p>
+</blockquote>
+
+<h2 id="变量的解构赋值">变量的解构赋值</h2>
+<h3 id="变量的结构赋值-数组的解构">变量的结构赋值-数组的解构</h3>
+<blockquote>
+  <p>解构赋值语法格式:
+let 数组元素 = 数组值
+例:
+let[a,b,c] = [101,200,300] 
+复杂数组的模式匹配:
+例:
+let [ba,[[bb],[bc,bd]]] = [100,[[200],[300,400]]];
+两边模式不能匹配:
+例1:
+let[n1, ,n2] = [1,2,3];
+例2:
+let[n3,n4,n5] = [10,20]; 
+结构赋值可以有默认值:
+let [var1,var2=’小红’] = [‘小马’,小钟];</p>
+</blockquote>
+
+<h3 id="对象的解构赋值">对象的解构赋值</h3>
+<blockquote>
+  <p>语法格式:
+let {对象名1,对象名2,…} = {对象名1:值1,对象名:值2….}
+例:
+let {bar,foo} = {bar:’lili’,foo:100}
+完整的对象解构赋值
+let [bar:bar,foo:foo]  = {bar:’honghong’,foo:’yanyan’}
+对象解构 复杂形式
+let obj = {
+    p: [
+        ‘Hello’,{y:’world’}
+    ]
+};
+let {p:[x,{y:y}]} = obj;</p>
+</blockquote>
+
+<h3 id="特殊对象的解构赋值">特殊对象的解构赋值</h3>
+<blockquote>
+  <p>字符串可以被看做是由字符组成的数组
+例:
+let [a,b,c,d,e,f] = ‘‘hellow’;
+输出结果为: a = h,b = e,…
+把字符串当成对象
+let {length:len} = ‘world’;  //用于获取字符串的长度
+输出结果为:5</p>
+</blockquote>
+
+<h3 id="实际应用">实际应用</h3>
+<blockquote>
+  <p>案例1:交换两个变量的值</p>
+
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//交换两个变量的值</span>
+<span class="kd">let</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">b</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+
+<span class="p">[</span><span class="nx">a</span><span class="p">,</span><span class="nx">b</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nx">b</span><span class="p">,</span><span class="nx">a</span><span class="p">]</span>
+</code></pre></div>  </div>
+
+  <p>案例2:提取json中的数据</p>
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//提取json中的数据</span>
+<span class="kd">let</span> <span class="nx">jsonData</span> <span class="o">=</span> <span class="p">{</span>
+<span class="na">id</span><span class="p">:</span><span class="mi">42</span><span class="p">,</span>
+<span class="na">status</span><span class="p">:</span><span class="dl">'</span><span class="s1">ok</span><span class="dl">'</span><span class="p">,</span>
+<span class="nx">data</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">67</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="kd">let</span> <span class="p">{</span><span class="nx">id</span><span class="p">,</span><span class="nx">status</span><span class="p">,</span><span class="nx">data</span><span class="p">}</span> <span class="o">=</span> <span class="nx">jsonData</span><span class="p">;</span>
+</code></pre></div>  </div>
+  <p>案例3:提取函数中的默认值</p>
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//提取函数中的默认值</span>
+<span class="kd">function</span> <span class="nx">getJson</span><span class="p">({</span>
+<span class="nx">url</span><span class="p">,</span>
+<span class="nx">type</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">get</span><span class="dl">'</span><span class="p">,</span>
+<span class="nx">data</span> <span class="o">=</span> <span class="dl">''</span><span class="p">;</span>
+<span class="k">async</span> <span class="o">=</span> <span class="kc">true</span>
+<span class="p">}){</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="nx">type</span><span class="p">,</span><span class="nx">data</span><span class="p">,</span><span class="k">async</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">getJson</span><span class="p">({</span>
+<span class="na">url</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">http://1.php</span><span class="dl">"</span>
+<span class="na">data</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">a = 100</span><span class="dl">"</span>
+<span class="p">});</span>
+</code></pre></div>  </div>
+  <p>ES6模块</p>
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+   <span class="k">import</span> <span class="p">{</span><span class="nx">firstName</span><span class="p">,</span><span class="nx">lastName</span><span class="p">,</span><span class="nx">year</span><span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./modul.js</span><span class="dl">'</span><span class="p">;</span>
+<span class="o">&lt;</span><span class="sr">/script</span><span class="err">&gt;
+</span><span class="nx">modul</span><span class="err">文件</span><span class="p">:</span>
+<span class="k">export</span> <span class="kd">var</span> <span class="nx">firstName</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">Lee</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">var</span> <span class="nx">lastName</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">DaChui</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">var</span> <span class="nx">firstName</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">1985</span><span class="dl">"</span><span class="p">;</span>
+</code></pre></div>  </div>
+</blockquote>
+
+<h2 id="for-of语法解构">for-of语法解构</h2>
+<h3 id="语法格式">语法格式:</h3>
+<blockquote>
+  <p>for{变量名 of 数组名/…}{
+	语句块
+}
+例:</p>
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">red</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">green</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">blue</span><span class="dl">'</span><span class="p">]</span>
+<span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">val</span> <span class="k">of</span> <span class="nx">arr</span><span class="p">){</span>
+	<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">val</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>  </div>
+</blockquote>
+
+<h3 id="for-of可以遍历的内容">for-of可以遍历的内容</h3>
+<blockquote>
+  <p>1.遍历字符串</p>
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">val</span> <span class="k">of</span> <span class="dl">'</span><span class="s1">abcdef</span><span class="dl">'</span><span class="p">){</span>
+	<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">val</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>  </div>
+  <p>2.遍历节点列表</p>
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">lis</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectAll</span><span class="p">(</span><span class="dl">'</span><span class="s1">ul li</span><span class="dl">'</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">ele</span> <span class="k">of</span> <span class="nx">lis</span><span class="p">){</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">ele</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>  </div>
+  <p>3.类数组对象
+4.argument
+5.map
+6.set</p>
+</blockquote>
+
+<h3 id="for-of-与-其他遍历方式的区别">for of 与 其他遍历方式的区别</h3>
+<blockquote>
+  <p>1.for…in : 可以遍历的类型比for-in更多,for of直接遍历出值,for in遍历出来的是key
+2.forEach方式:可以遍历出更多的类型,可以使用break和continue等结束语句</p>
+</blockquote>
+
+<h3 id="iterator-遍历器">Iterator 遍历器</h3>
+<blockquote>
+  <p>ES6定义的一个接口
+Array实现了Interator的接口
+实现遍历器接口的数据类型都可一用于for of</p>
+</blockquote>
+
+<h2 id="字符串的新特性">字符串的新特性</h2>
+<h3 id="模板字符串">模板字符串</h3>
+<blockquote>
+  <p>语法格式:
+let 变量名 = `
+字符串内容;
+`;
+例:</p>
+
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">html</span> <span class="o">=</span> <span class="dl">'</span><span class="s1"> 
+&lt;div&gt;
+	&lt;p&gt;hahaha&lt;p&gt;
+	&lt;a href="#"&gt;heiheihei&lt;/a&gt;
+&lt;div&gt;
+</span><span class="dl">'</span><span class="p">;</span>
+</code></pre></div>  </div>
+  <p>ps:在字符串中使用反引号需要转义</p>
+</blockquote>
+
+<h4 id="模板字符串的特点">模板字符串的特点</h4>
+<blockquote>
+  <ol>
+    <li>定义比较长,复杂字符串如html代码</li>
+    <li>模板字符串中写`需要转义
+3.模板字符串中插入变量${变量名}
+4.模板字符串中插入函数调用${函数名()}</li>
+  </ol>
+</blockquote>
+
+<h3 id="repeat方法">repeat方法</h3>
+<blockquote>
+  <p>重复输出字符串</p>
+</blockquote>
+
+<h3 id="字符串补全长度的方法padstart-padend">字符串补全长度的方法padStart() padEnd()</h3>
+<h4 id="padstart">padStart()</h4>
+<blockquote>
+  <p>在字符串前面进行补全
+语法格式:
+padStart(长度,补全内容) //默认使用空格补全</p>
+</blockquote>
+
+<h4 id="padend">padEnd()</h4>
+<blockquote>
+  <p>在字符串后面进行补全
+语法格式:
+padEnd(长度,补全内容) //默认使用空格补全</p>
+</blockquote>
+
+<h3 id="字符串包含验证-include--startswith--endswith">字符串包含验证 include() / startsWith() / endsWith()</h3>
+<blockquote>
+  <p>include() :是否包含指定字符
+startsWith():s是否以指定字符开头
+endsWith():是否以指定指定字符结尾</p>
+</blockquote>
+
+<h2 id="函数新增特性">函数新增特性</h2>
+<h3 id="函数的默认值">函数的默认值</h3>
+<blockquote>
+  <p>ES6中函数可以直接添加默认值<br />
+例:</p>
+
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">fn</span> <span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="nx">b</span><span class="o">=</span><span class="dl">'</span><span class="s1">小明</span><span class="dl">'</span><span class="p">){</span>
+	<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>  </div>
+</blockquote>
+
+<h3 id="rest参数">rest参数</h3>
+<blockquote>
+  <p>命名规则:
+…变量名
+会的到一个純数组</p>
+</blockquote>
+
+<h3 id="箭头函数">箭头函数</h3>
+<blockquote>
+  <p>1.等同于
+let fn = val =&gt; val;
+2.实现两个数之和
+let sum = (num1,num2)=&gt;num1+num2;
+console.log(sum(1,5)); 
+3.箭头函数 函数体多个语句
+let demo = (num)=&gt;
+特点:
+1.简化函数的声明
+2.参数超过1个加()
+3.函数体超过1行,加{},自己写return</p>
+</blockquote>
+
+<h4 id="箭头函数的作用">箭头函数的作用</h4>
+<blockquote>
+  <p>1.简化函数回调
+2.箭头函数中的this是函数声明时所在的对象</p>
+</blockquote>
+
+<h3 id="数组的新增特性">数组的新增特性</h3>
+<h4 id="扩展运算符">扩展运算符(…)</h4>
+<blockquote>
+  <p>概念:扩展运算符相当于rest参数的逆运算,把数组转化为用逗号分隔的参数列表
+实际作用:</p>
+  <ol>
+    <li>复制数组</li>
+  </ol>
+
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//复制数组</span>
+<span class="kd">let</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">30</span><span class="p">];</span>
+<span class="c1">//复制a数组 赋值给b</span>
+<span class="kd">let</span> <span class="nx">b</span> <span class="o">=</span> <span class="p">[...</span><span class="nx">a</span> <span class="p">];</span>
+</code></pre></div>  </div>
+  <p>2.合并数组</p>
+
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">刘姥姥</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">马姥姥</span><span class="dl">'</span><span class="p">,</span><span class="err">找姥姥</span><span class="p">];</span>
+<span class="kd">let</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">刘奶奶</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">刘奶奶</span><span class="dl">'</span><span class="p">,</span><span class="err">王大爷</span><span class="p">];</span>
+<span class="kd">let</span> <span class="nx">c</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="mi">102</span><span class="p">,</span><span class="mi">103</span><span class="p">];</span>
+<span class="c1">//ES5</span>
+<span class="kd">let</span> <span class="nx">newArgs</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">conact</span> <span class="p">(</span><span class="nx">b</span><span class="p">,</span><span class="nx">c</span><span class="p">);</span>
+<span class="c1">//ES6扩展运算符</span>
+<span class="kd">let</span> <span class="nx">newList</span> <span class="o">=</span> <span class="p">[...</span><span class="nx">a</span><span class="p">,...</span><span class="nx">b</span><span class="p">,...</span><span class="nx">c</span><span class="p">];</span>
+</code></pre></div>  </div>
+  <p>3.扩展运算符与结构数组一起使用</p>
+
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="p">[</span><span class="nx">a</span><span class="p">,</span><span class="nx">b</span><span class="p">,...</span><span class="nx">args</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">];</span>
+</code></pre></div>  </div>
+  <p>args的值为:3,4,5,6</p>
+
+  <p>4.扩展运算符 作用于字符串</p>
+
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">args</span> <span class="o">=</span> <span class="p">[...</span><span class="dl">"</span><span class="s2">hellow</span><span class="dl">"</span><span class="p">];</span>
+</code></pre></div>  </div>
+  <p>args的值为:将hellow转化为字符数组</p>
+</blockquote>
+
+<p>## Array构造函数的新增方法</p>
+<h3 id="arrayfrom">Array.from()</h3>
+<blockquote>
+  <p>可以把类数组对象和实现了迭代器接口的数据类型装换成真正的对象</p>
+</blockquote>
+
+<h3 id="arrayof将一组值转换为数组">Array.of()将一组值转换为数组</h3>
+<blockquote>
+  <p>将一组值转换为数组</p>
+</blockquote>
+
+<h2 id="数组对象新增的方法">数组对象新增的方法</h2>
+<blockquote>
+  <p>find() 返回数组中第一个满足条件的元素,参数是回调函数
+findIndex() 返回数组中第一个满足条件的元素索引,参数是回调函数
+entries()  帮助数组遍历数组中的key和value,使用for…of循环
+keys() 遍历数组中的所有索引值
+values()  chrome未能实现
+includes() 表示数组中是否包含某个指定的值</p>
+</blockquote>
+
+<h2 id="对象的新增特性">对象的新增特性</h2>
+<h3 id="属性的简洁表示">属性的简洁表示</h3>
+<blockquote>
+  <p>属性名和遍量名相同时可以只写一个</p>
+</blockquote>
+
+<h3 id="objectis">Object.is()</h3>
+<blockquote>
+  <p>用于比较,类似于 ===(全等符号)
+0和-0使用Object.is()判断 不相等
+NaN和NaN使用Object.is()判断 相等</p>
+</blockquote>
+
+<h3 id="objectassign">Object.assign()</h3>
+<blockquote>
+  <p>用于合并对象
+Object.assign(目标对象,源对象) 
+例:将两个对象合并到一个新的对象</p>
+
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">res</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">({},</span><span class="nx">obj1</span><span class="p">,</span><span class="nx">obj2</span><span class="p">);</span>
+</code></pre></div>  </div>
+</blockquote>
+
+<h3 id="objectkeys">Object.keys()</h3>
+<h3 id="objectvalues">Object.values()</h3>
+<h3 id="objectentries">Object.entries()</h3>
+
+<h2 id="setmap数据解构">Set/Map数据解构</h2>
+<h3 id="set数据结构">set数据结构</h3>
+<blockquote>
+  <p>实现了Interator接口
+定义:
+类似于数组,但是起成员是唯一的
+语法格式:
+let 变量名 = new set([值1,值2,值3,…])</p>
+</blockquote>
+
+<h3 id="set构造函数">Set构造函数</h3>
+<blockquote>
+  <p>可以接收一个数组
+可以接收所有实现了Interator接口的数据解构
+实现数组去重实例:</p>
+
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//实现数组去重1</span>
+<span class="kd">let</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">23</span><span class="p">];</span>
+
+<span class="kd">let</span> <span class="nx">newArr</span> <span class="o">=</span> <span class="p">[...</span><span class="k">new</span> <span class="nb">Set</span><span class="p">(</span><span class="nx">arr</span><span class="p">)];</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">newArr</span><span class="p">);</span>
+<span class="c1">//实现数组去重2</span>
+<span class="kd">let</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">23</span><span class="p">];</span>
+
+<span class="kd">let</span> <span class="nx">newArr</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="k">from</span><span class="p">(</span><span class="k">new</span> <span class="nb">Set</span><span class="p">(</span><span class="nx">arr</span><span class="p">));</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">newArr</span><span class="p">);</span>
+
+</code></pre></div>  </div>
+</blockquote>
+
+<h3 id="set数据类型的属性">set数据类型的属性</h3>
+<blockquote>
+  <p>查看长度:size</p>
+</blockquote>
+
+<h3 id="set数据类型的方法">set数据类型的方法</h3>
+<blockquote>
+  <p>add:向set中添加一个成员
+语法:
+对象名.add(值);</p>
+  <blockquote>
+    <p>delete:向set中删除一个成员
+语法:
+对象名.delete(值);
+has:判断set中是否存在元素
+语法:
+对象名.has(值);
+clear:清空set
+语法:
+对象名.clear;
+forEach():
+key():
+values():
+entries():</p>
+  </blockquote>
+</blockquote>
+
+<h3 id="set数据类型的遍历">set数据类型的遍历</h3>
+
+<h3 id="weakset">WeakSet</h3>
+<blockquote>
+  <p>定义
+与Set类似,成员唯一,成员必须是变量
+WeakSet中的对象都是弱引用
+不能遍历,也没有size属性
+方法:
+add():
+delete():
+has():</p>
+</blockquote>
+
+<h3 id="map数据结构">Map数据结构</h3>
+<blockquote>
+  <p>定义:
+Map跟对象类似,键值对组成的集合,键的类型可以是任意类型</p>
+</blockquote>
+
+<h3 id="map数据结构的构造函数">Map数据结构的构造函数</h3>
+<blockquote>
+  <p>构造函数的参数可以是数组,数组是二维数组,元素数组两个元素,key value
+例:</p>
+
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">m</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Map</span><span class="p">([[</span><span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">,</span><span class="dl">'</span><span class="s1">lili</span><span class="dl">'</span><span class="p">],[</span><span class="dl">"</span><span class="s2">title</span><span class="dl">"</span><span class="p">,</span><span class="dl">'</span><span class="s1">hello world</span><span class="dl">'</span><span class="p">],[</span><span class="nx">Window</span><span class="p">,</span><span class="dl">'</span><span class="s1">haha</span><span class="dl">'</span><span class="p">]]);</span>
+</code></pre></div>  </div>
+</blockquote>
+
+<h3 id="map数据结构方法">Map数据结构方法</h3>
+<blockquote>
+  <p>get(key):获取索引值的数据
+set(key,value) 修改/添加
+has(key):是否存在
+clear():清空</p>
+</blockquote>
+
+<h3 id="map数据结构的遍历">Map数据结构的遍历</h3>
+
+<h3 id="weakmap">WeakMap</h3>
+<blockquote>
+  <p>定义:
+键是必须对象
+键所执行的对象是弱引用
+不可遍历 没有实现Interator接口</p>
+</blockquote>
+
+<h3 id="weakmap的方法">WeakMap的方法</h3>
+<blockquote>
+  <p>set():
+get():
+has():
+clear();
+delete();</p>
+</blockquote>
+
+<h2 id="promise">Promise</h2>
+
+<h3 id="promise基础">Promise基础</h3>
+<blockquote>
+  <p>js中的异步操作:</p>
+  <ol>
+    <li>ajax请求</li>
+    <li>浏览器事件</li>
+    <li>定时</li>
+  </ol>
+</blockquote>
+
+<h3 id="回调函数">回调函数</h3>
+
+<h3 id="回调地狱">回调地狱</h3>
+<blockquote>
+  <p>回调函数嵌套回调函数</p>
+</blockquote>
+
+<h3 id="promise-1">Promise</h3>
+<blockquote>
+  <p>解决回调地狱
+像同步操作那样去执行异步操作</p>
+</blockquote>
+
+<h3 id="promise的构造方法">Promise的构造方法</h3>
+<blockquote>
+  <p>构造函数必须接收一个函数作为参数,函数可以接收参数</p>
+</blockquote>
+
+<h3 id="promise的原理">Promise的原理</h3>
+<blockquote>
+  <p>原理:
+一个Promise实例(对象),代表一个异步操作
+promise通过状态去管理异步操作
+语法格式resolve,reject不可变</p>
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">p</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span><span class="nx">reject</span><span class="p">){</span>
+
+<span class="p">});</span>
+</code></pre></div>  </div>
+  <p>实例:</p>
+
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">p</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span><span class="nx">reject</span><span class="p">){</span>
+	
+	<span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+		<span class="c1">//操作</span>
+		<span class="nx">resolve</span><span class="p">(</span><span class="dl">"</span><span class="s2">数据</span><span class="dl">"</span><span class="p">);</span>
+	<span class="p">},</span><span class="mi">2000</span><span class="p">)</span>
+<span class="p">});</span>
+
+<span class="nx">p</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">res</span><span class="p">){</span>
+	<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>  </div>
+</blockquote>
+
+<h3 id="状态">状态</h3>
+<blockquote>
+  <p>pending(进行中)
+fulfilled(已完成) resolve()函数执行
+rejected()已经失败 reject() 函数执行</p>
+</blockquote>
+
+<h3 id="promise对象的方法">Promise对象的方法</h3>
+<blockquote>
+  <ol>
+    <li>then():then 方法接收两个函数作为参数，第一个参数是 Promise 执行成功时的回调，第二个参数是 Promise 执行失败时的回调，两个函数只会有一个被调用。</li>
+    <li>catch():参数是一个回调函数,promise转状态时为rejected时调用</li>
+    <li>all() 参数是数组,数组成员都是Promise对象.所有Promise对象状态改变,才执行then.</li>
+    <li>race() 参数也是数组,数组成员都是Promise对象,最快的Promise状态改变,其他的Promise 停止</li>
+  </ol>
+</blockquote>
+
+<h3 id="jquery使用promise">jQuery使用Promise</h3>
+
+<h2 id="class">Class</h2>
+<h3 id="基本使用">基本使用</h3>
+<blockquote>
+  <p>JavaScript prototype 属性:
+定义和用法
+prototype 属性使您有能力向对象添加属性和方法。
+语法
+object.prototype.name=value</p>
+</blockquote>
+
+<h3 id="构造函数">构造函数</h3>
+
+<h3 id="class基本语法">Class基本语法</h3>
+
+<h3 id="class的特点">Class的特点</h3>
+<blockquote>
+  <p>clas的里面必须包含constructor,属性添加到constructor中<br />
+class可以使用new实例化
+class本质仍然是构造函数,语法糖
+this的指向,class将来的实例</p>
+</blockquote>
+
+<h3 id="静态方法">静态方法</h3>
+
+<h3 id="class的继承">Class的继承</h3>
+<blockquote>
+  <p>特点:
+使用extends关键字
+子类会继承父类的属性和方法
+子类中的属性和方法会覆盖父类的(如果同名)</p>
+</blockquote>
+
+<h3 id="super关键字">super关键字</h3>
+<blockquote>
+  <p>子类中声明constructor的时候,里面必须调用super();
+super作为函数,必须在constructor中使用,代表父类的constructor再执行一遍.
+super作为对象,在普通子类方法中使用</p>
+</blockquote>
+
+<h2 id="es6的模块化">ES6的模块化</h2>
+<blockquote>
+  <p>CommonJS标准  node.js
+AMD标准                require.js
+ES6模块</p>
+</blockquote>
+
+<h3 id="定义模块">定义模块</h3>
+<blockquote>
+  <p>export 提供方法 
+实例:</p>
+
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//模块大量操作</span>
+<span class="k">export</span> <span class="kd">var</span> <span class="nx">lasName</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">MICH</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">var</span> <span class="nx">firstName</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">jackson</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kd">function</span> <span class="nx">getJson</span><span class="p">(){</span>
+	<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">getJson</span><span class="dl">"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>  </div>
+
+</blockquote>
+
+<h3 id="引入模块">引入模块</h3>
+<blockquote>
+  <p>import:引入模块的方法</p>
+
+  <p>实例:</p>
+
+  <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="dl">"</span><span class="s2">module</span><span class="dl">"</span><span class="o">&gt;</span>
+	<span class="c1">//引入模块</span>
+	<span class="k">import</span> <span class="p">{</span><span class="nx">lastName</span><span class="p">,</span><span class="nx">firstName</span><span class="p">,</span><span class="nx">getJson</span><span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">module01.js</span><span class="dl">"</span>
+<span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</code></pre></div>  </div>
+
+</blockquote>
+
+:ET

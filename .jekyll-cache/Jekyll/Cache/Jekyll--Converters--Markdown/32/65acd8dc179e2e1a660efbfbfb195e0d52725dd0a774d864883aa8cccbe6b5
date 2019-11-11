@@ -1,0 +1,217 @@
+I"c$<p>[TOC]</p>
+<h1 id="c语言笔记2">C语言笔记2</h1>
+
+<p>## 多个源文件分开编写</p>
+<blockquote>
+  <blockquote>
+    <p>在Linux vim中使用:sp可以同时打开两个文件
+ctrl+w:向上.wqa:全部报错退出
+分开编写后如何编译:
+gcc 文件1 文件2   -o 新文件名
+例:</p>
+    <pre><code class="language-C">gcc max.c hell.c -o hell.c
+</code></pre>
+    <p>代码示例:</p>
+
+    <p>文件hell.c:</p>
+
+    <pre><code class="language-C">#include &lt;stdio.h&gt;
+#include "max.c"
+
+int main()
+{
+       int a1 = 33;
+       int a2 = 21;
+       int maxNum = max(a1,a2);
+       printf("the max value is %d\n",maxNum);
+       return 0;
+}
+</code></pre>
+    <p>文件max.c</p>
+    <pre><code class="language-C">#include &lt;stdio.h&gt;
+
+int max(int a, int b)
+{
+        if(a&gt;b){
+            return a;
+        }else{
+            return b;
+        }
+}
+</code></pre>
+  </blockquote>
+
+  <h2 id="多个源文件分开编写2">多个源文件分开编写2</h2>
+  <p>方法一:</p>
+  <blockquote>
+    <p>编译时使用gcc   -c  文件名　-o    新文件名,编译为.o文件
+执行时编译gcc .o文件　文件　-o
+方法二：
+１.编写一个.h的文件
+2.编译一个.o的文件
+3.在程序入口文件加入预编译指令#include “文件名.h”
+4.一起编译.o文件和主文件
+5.执行代码
+代码示例:
+hell.c文件:</p>
+
+    <pre><code class="language-C">#include &lt;stdio.h&gt;
+#include "max.h"
+#include "min.h"
+
+int main(){
+   int a1=15;
+   int a2=16;
+   int maxNum=max(a1,a2);
+   int minNum=min(a1,a2);
+   printf("the max value is %d\n",maxNum);
+   printf("the max value is %d\n",minNum);
+}
+
+</code></pre>
+
+    <p>max.c文件:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+</span> 
+<span class="kt">int</span> <span class="nf">max</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="kt">int</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="o">&gt;</span><span class="n">b</span><span class="p">){</span>
+       <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+   <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+       <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div>    </div>
+
+    <p>min.c文件:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+</span> 
+<span class="kt">int</span> <span class="nf">min</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="kt">int</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="o">&lt;</span><span class="n">b</span><span class="p">){</span>
+       <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+   <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+       <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div>    </div>
+
+    <p>max.h文件:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">max</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="kt">int</span> <span class="n">b</span><span class="p">);</span>
+</code></pre></div>    </div>
+
+    <p>min.h文件:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">max</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="kt">int</span> <span class="n">b</span><span class="p">);</span>
+</code></pre></div>    </div>
+
+    <h2 id="makefile编写">makeFile编写</h2>
+    <p>make工具可以将大型的开发项目分成若干个模块
+make安装:apt-get install make
+makeFile内容:
+注释:# 注释内容
+主要内容
+ps:文件名小写
+makefile文档示例:</p>
+  </blockquote>
+</blockquote>
+
+<div class="language-makefile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># this is make file
+</span><span class="nl">hell.out</span><span class="o">:</span><span class="nf">max.o min.o hell.c</span>
+        <span class="err">gcc</span> <span class="err">max.o</span> <span class="err">min.o</span> <span class="err">hell.c</span> <span class="err">-o</span> <span class="err">hello</span>
+<span class="nl">max.o</span><span class="o">:</span><span class="nf">max.c</span>
+        <span class="err">gcc</span> <span class="err">-c</span> <span class="err">max.c</span>
+<span class="nl">min.o</span><span class="o">:</span><span class="nf">min.c</span>
+        <span class="err">gcc</span> <span class="err">-c</span> <span class="err">min.c</span>
+</code></pre></div></div>
+<h2 id="main函数详解">main函数详解</h2>
+<h3 id="main函数中的return">main函数中的return</h3>
+<p>C语言main方法的完整形式:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int main(int argv,char* argc[])
+{
+    printf("hello world\n");
+    return 0;
+}
+</code></pre></div></div>
+<h4 id="linux中gcc指令拼接">linux中gcc指令拼接:</h4>
+<p>gcc 指令一 &amp;&amp; 指令二
+ echo $?:用与检测程序是否正常,0表示执行正常. 
+ ### main函数中参数
+ argv:用于统计参数数量
+ %s:打印字符串
+ ## C语言的输入输出流和错误流
+ ### Linux C的标准输入输出流,标注输出流,标准错误流</p>
+<h4 id="标准输出流">标准输出流</h4>
+<p>printf
+fprintf:向文件中输出文件</p>
+<h4 id="标注输入流">标注输入流</h4>
+<p>scanf
+ fscanf
+ #### 标准错误流
+ stderr
+ ### Linux C的输入输出流以及错误流的重定向
+ #### 重定向
+ 输出流的重定向:
+ 格式1:文件名 » 输出文件
+ 例:
+ c.out » text1.txt
+ 格式二:文件名 &gt; 输出文件:输出重定向并查看最新插入
+ 例:
+ c.out &gt; text.txt 
+ 输入流重定向:
+ 格式1: 输入到文件 &lt;  输入源
+ 例:
+ ./a.out &lt; text.txt
+ ## 管道原理及应用
+ 管道符: |
+ ## 打造实用的C语言小程序
+ 我们在文件夹下，c语言做的每个程序都有一个独立的功能，我们可以将多个小程序使用管道连接到一起。
+例如input.c实现输入数字，输出总和与数量。avg.c实现输入总和与数量，输出平均值。可直接利用管道将其匹配
+./input.out | ./avg.out
+input.c文件代码实例:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">/</span><span class="err">统计</span>
+<span class="cp">#include &lt;stdio.h&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">flag</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span>  <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"请输入数据:</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">flag</span><span class="p">){</span>
+        <span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">i</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+	<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="n">s</span> <span class="o">+=</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span> 
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%d,%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">count</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+<p>avg.c文件代码实例:</p>
+
+<pre><code class="language-C">//求平均值
+
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    int s,n;
+    scanf("%d,%d",&amp;s,&amp;n);
+    float v = s/n;
+    printf("v=%f\n",v);
+    return 0;
+}
+
+</code></pre>
+
+:ET
