@@ -4,7 +4,7 @@ SEOTitle: 王金玉的博客
 header-img: img/post-bg-index.jpg
 email: wjy6864@163.com
 description: "keep is important."
-keyword: "王金玉的博客, wjy, 邬恒宇, Java, 微服务, 敏捷开发"
+keyword: "王金玉的博客, wjy, Java, 微服务, 敏捷开发"
 url: "https://wjy9998.github.io/"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
 github_repo: "https://github.com/wjy9998/wjy9998.github.io.git" # you code repository
